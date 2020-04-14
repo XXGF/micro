@@ -50,6 +50,20 @@ var (
 	ACMECA                = acme.LetsEncryptProductionCA
 )
 
+// 概述：
+// Micro proxy提供基于go-micro框架的代理服务。
+// 它把go-micro中的各种特性组成一个本地化的服务，并且支持把需要的特性转到其上， 比如服务发现、负载均衡、容错、插件化、包装器等等。
+// 我们并不需要给把每个go-micro服务都升级以满足底层框架所要求的种种东西，
+// 只需要通过代理即可，
+// 而其它语言就只用实现很轻的客户端而不用实现所有特性就能调用服务。
+
+// Micro Proxy 其实是和 Micro API 类似的东西
+// 只不过Micro API   用于 client --> Micro API   server
+// 只不过Micro Proxy 用于 server --> Micro Proxy server
+// Micro Proxy 提供了 Go Micro 框架的代理实现，通过 Micro Proxy 可以把 Go Micro 框架中的各种特性整合到一起，比如服务发现、负载均衡、容错、插件、包装器等
+// 这样一来，你就不需要修改每个 Go Micro 应用的底层代码，通过代理就可以组合上述功能组件对外提供服务，通过该功能，还可以支持使用其它语言实现瘦客户端
+// Micro Proxy 默认会基于 micro/go-micro/proxy/mucp/mucp.go 这个代理将请求路由到最终的服务端点（Endpoint），服务的初始化、启动、注册和监听请求逻辑对应的源码位于 micro/micro/proxy/proxy.go
+// 你可能觉得通过 Micro API 也可以实现类似的功能，如果仅仅是用作远程服务调用的话，确实如此，但 Micro Proxy 的强大之处，在于还支通过其它语言实现服务端和客户端
 func run(ctx *cli.Context, srvOpts ...micro.Option) {
 	log.Init(log.WithFields(map[string]interface{}{"service": "proxy"}))
 

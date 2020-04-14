@@ -56,8 +56,10 @@ func RPC(w http.ResponseWriter, r *http.Request) {
 		ct = ct[:idx]
 	}
 
+	// 构造request
 	switch ct {
 	case "application/json":
+		// 请求提内容需要按照这个格式来
 		var rpcReq rpcRequest
 
 		d := json.NewDecoder(r.Body)
@@ -136,6 +138,7 @@ func RPC(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// remote call
+	// 这里的Call方法是go-micro框架中的Call方法，由这个Call方法真正的去执行远程调用
 	err = (*cmd.DefaultOptions().Client).Call(ctx, req, &response, opts...)
 	if err != nil {
 		ce := errors.Parse(err.Error())
