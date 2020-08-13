@@ -225,7 +225,7 @@ func run(ctx *cli.Context, srvOpts ...micro.Option) {
     //http://localhost:8080/rpc
 
 	// 处理器底层会将 RPC 请求转化为对 Go Micro 底层服务的请求，对应的处理器源码位于 micro/micro/internal/handler/rpc.go 中。
-	// 这里应该是会然后 api handler，直接由Handler.RPC进行处理
+	// 这里应该是会绕过 micor-api 的 handler，直接由Handler.RPC进行处理
 	if EnableRPC {
 		log.Infof("Registering RPC Handler at %s", RPCPath)
 		r.HandleFunc(RPCPath, handler.RPC)
@@ -242,7 +242,7 @@ func run(ctx *cli.Context, srvOpts ...micro.Option) {
 	}
 
 	// default resolver
-	// 4.初始化默认路由解析器
+	// 4.初始化默认路由解析器，默认解析路由解析器是“micro” 对应源码位于 micro/go-micro/api/resolver/micro/micro.go
 	rr := rrmicro.NewResolver(ropts...)
 
 	// Resolver是解析器名称，默认是micro，也可以通过命令行参数指定

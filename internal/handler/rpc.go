@@ -22,8 +22,7 @@ type rpcRequest struct {
 	Request  interface{}
 }
 
-// RPC Handler passes on a JSON or form encoded RPC request to
-// a service.
+// RPC Handler passes on a JSON or form encoded RPC request to a service.
 func RPC(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == "OPTIONS" {
